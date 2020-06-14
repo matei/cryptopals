@@ -86,11 +86,21 @@ class Challenge16:
             print_line('Failed... try again', color=RED)
 
     def get_user_data(self, user_data):
+        """
+        Encrypted user profile
+        :param user_data:
+        :return:
+        """
         user_data = 'comment1=cooking%20MCs;userdata=' + user_data.replace(';', '').replace('=', '') + ';comment2=%20like%20a%20pound%20of%20bacon'
         data = pkcs7_pad(user_data.encode(), len(self.key))
         return encrypt_aes_128_cbc(data, self.key, self.iv)
 
     def check_if_admin(self, encrypted):
+        """
+        Decrypt user profile and check if admin
+        :param encrypted:
+        :return:
+        """
         decrypted = decrypt_aes_128_cbc(encrypted, self.key, self.iv)
         decrypted = decrypted.decode('iso-8859-1')
         parts = decrypted.split(';')

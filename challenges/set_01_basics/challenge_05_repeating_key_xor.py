@@ -6,6 +6,9 @@ from utils.print_utils import *
 class Challenge05:
 
     def __init__(self):
+        """
+        Init
+        """
         self.input1 = "Burning 'em, if you ain't quick and nimble\n"
         self.input2 = 'I go crazy when I hear a cymbal'
         self.expected1 = '0b3637272a2b2e63622c2e69692a23693a2a3c6324202d623d63343c2a26226324272765272'
@@ -13,6 +16,10 @@ class Challenge05:
         self.key = 'ICE'
 
     def display(self):
+        """
+        Display challenge info
+        :return:
+        """
         print_line(f'{BOLD_START}Implement repeating-key XOR{BOLD_END}', color=BLUE)
         print_line('Here is the opening stanza of an important work of the English language: ', color=BLUE)
         print_line(self.input1, color=WHITE)
@@ -24,6 +31,10 @@ class Challenge05:
         print_line(self.expected2, color=WHITE)
 
     def run(self):
+        """
+        Implement repeating key XOR...
+        :return:
+        """
         result = xor_bytes_repeating_key(
             (self.input1 + self.input2).encode(),
             self.key.encode()

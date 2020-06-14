@@ -5,10 +5,17 @@ from utils.print_utils import *
 class Challenge09:
 
     def __init__(self):
+        """
+        Init
+        """
         self.string = 'YELLOW SUBMARINE'
         self.expected = b'YELLOW SUBMARINE\x04\x04\x04\x04'
 
     def display(self):
+        """
+        Display challenge info
+        :return:
+        """
         print_line(f'{BOLD_START}Implement PKCS#7 padding{BOLD_END}', color=BLUE)
         print_line('A block cipher transforms a fixed-sized block (usually 8 or 16 bytes) of plaintext into ciphertext. But we almost never want to transform a single block; we encrypt irregularly-sized messages. ', color=BLUE)
         print_line('One way we account for irregularly-sized messages is by padding, creating a plaintext that is an even multiple of the blocksize. The most popular padding scheme is called PKCS#7. ', color=BLUE)
@@ -18,6 +25,10 @@ class Challenge09:
         print_line(self.expected)
 
     def run(self):
+        """
+        Implemeent pkcs7 padding
+        :return:
+        """
         message = "YELLOW SUBMARINE"
         length = 20
         result = pkcs7_pad(message.encode(), length)

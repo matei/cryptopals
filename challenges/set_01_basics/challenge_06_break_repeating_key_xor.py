@@ -7,17 +7,32 @@ from utils.print_utils import *
 class Challenge06:
 
     def __init__(self):
+        """
+        Init
+        """
         self.path = 'data/challenge06.txt'
         with(open(os.path.join(os.path.dirname(__file__), self.path), 'r')) as f:
             self.data = f.read()
 
     def display(self):
+        """
+        Display challenge info
+        :return:
+        """
         print_line(f'{BOLD_START}Break repeating-key XOR{BOLD_END}', color=BLUE)
         print_line(f'There\'s a file: {self.path}. It\'s been base64ed after being encrypted with repeating-key XOR. ',
                    color=BLUE)
         print_line('Decrypt it.', color=BLUE)
 
     def run(self):
+        """
+        So here we need to break repeating key XOR. We'll do that by:
+        - calculate key-size by trying various key sizes, for each key size: calculate avg edit size between blocks of that size
+        - knowing the key-size, split cipher-text into blocks of that size
+        - transpose the blocks
+        - solve each block as it were a single char xor (prev challenge strategy)
+        :return:
+        """
         message_bytes = base64.b64decode(self.data)
         keysize_scores = {avg_edit_size(message_bytes.decode(), keysize, 0, keysize): keysize for keysize in
                           range(2, 40)}

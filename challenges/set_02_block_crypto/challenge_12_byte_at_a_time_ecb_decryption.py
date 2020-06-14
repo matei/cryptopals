@@ -7,6 +7,9 @@ from utils.print_utils import *
 class Challenge12:
 
     def __init__(self):
+        """
+        Init
+        """
         self.key = generate_random_aes_key()
         self.input = 'Um9sbGluJyBpbiBteSA1LjAKV2l0aCBteSByYWctdG9wIGRvd24gc28gbXkg\
                       aGFpciBjYW4gYmxvdwpUaGUgZ2lybGllcyBvbiBzdGFuZGJ5IHdhdmluZyBq\
@@ -14,6 +17,10 @@ class Challenge12:
                       YnkK'.replace('\s', '').replace("\n", '')
 
     def display(self):
+        """
+        Display challenge info
+        :return:
+        """
         print_line(f'{BOLD_START}Byte-at-a-time ECB decryption {BOLD_END}', color=BLUE)
         print_line('Implement a new function that encrypts buffers under ECB mode using a consistent but unknown key (for instance, assign a single random key, once, to a global variable).  ', color=BLUE)
         print_line('Now take that same function and have it append to the plaintext, BEFORE ENCRYPTING, the following string: ', color=BLUE)
@@ -31,6 +38,16 @@ class Challenge12:
         print_line('6. Repeat for the next byte. ', color=BLUE)
 
     def run(self):
+        """
+        Strategy is like this:
+        - oracle does encrypt(user-data + payload)
+        - if key size is 16, we fill up user-data with 15 chars (so the 16'th will be first char of payload) and see what's cipher for first block
+        - then we brute-force seek the last char which together with 15 known chars yields same encrypted first block
+        - then we repeat same process for 14, 13... etc. until we know first block entirely
+        - then we repeat for 2nd block etc.
+        Note: I made this also with a visualization of the process to get a better intuition of the process
+        :return:
+        """
         last, keysize = '', 0
         for i in range(32):
             message = 'A' * i
@@ -68,6 +85,11 @@ class Challenge12:
         print('Challenge #12 flag: ' + result.decode())
 
     def oracle(self, message):
+        """
+        Encrypt with target suffix (self.input)
+        :param message:
+        :return:
+        """
         message_bytes = bytearray(message.encode())
         for b in base64.b64decode(self.input):
             message_bytes.append(b)

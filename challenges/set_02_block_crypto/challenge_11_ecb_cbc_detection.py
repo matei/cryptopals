@@ -7,10 +7,17 @@ from utils.print_utils import *
 class Challenge11:
 
     def __init__(self):
+        """
+        Init
+        """
         self.key = generate_random_aes_key()
         self.iv = b'0' * len(self.key)
 
     def display(self):
+        """
+        Display challenge info
+        :return:
+        """
         print_line(f'{BOLD_START}An ECB/CBC detection oracle{BOLD_END}', color=BLUE)
         print_line('Now that you have ECB and CBC working: ', color=BLUE)
         print_line('Write a function to generate a random AES key; that\'s just 16 random bytes. ', color=BLUE)
@@ -20,6 +27,11 @@ class Challenge11:
         print_line('Detect the block cipher mode the function is using each time. You should end up with a piece of code that, pointed at a block box that might be encrypting ECB or CBC, tells you which one is happening. ', color=BLUE)
 
     def run(self):
+        """
+        Re-use has_repeating_chunks strategy to detect ECB.
+        Since we control the input, it's just a matter of choosing a long enough message
+        :return:
+        """
         message = 'A' * 12000
         textlen = len(message)
         block_size = 120
@@ -50,12 +62,17 @@ class Challenge11:
                     guessed_cbc_correct += 1
                 else:
                     guessed_ecb_correct += 1
-            print(f'Detected {detected_mode} encryption mode. Encrypted with {mode}')
-        print(f'Correctness ratio: {100 * (round(correctness / tries, 2))}% in {tries} blocks')
-        print(f'Detected {guessed_ecb_total} times ECB. Nailed it {guessed_ecb_correct} times. Total times used was {encrypted_times_ecb}')
-        print(f'Detected {guessed_cbc_total} times CBC. Nailed it {guessed_cbc_correct} times. Total times used was {encrypted_times_cbc}')
+            print_line(f'Detected {detected_mode} encryption mode. Encrypted with {mode}', color=GREEN)
+        print_line(f'Correctness ratio: {100 * (round(correctness / tries, 2))}% in {tries} blocks', color=GREEN)
+        print_line(f'Detected {guessed_ecb_total} times ECB. Nailed it {guessed_ecb_correct} times. Total times used was {encrypted_times_ecb}', color=GREEN)
+        print_line(f'Detected {guessed_cbc_total} times CBC. Nailed it {guessed_cbc_correct} times. Total times used was {encrypted_times_cbc}', color=GREEN)
 
     def encrypt_message_with_random_key(self, message):
+        """
+        Encrypt message with random prefix and suffix
+        :param message:
+        :return:
+        """
         alphabet = list(string.ascii_letters + string.digits)
         random.shuffle(alphabet)
         message = f'{"".join(alphabet[0:random.randrange(5, 10)])}{message}'

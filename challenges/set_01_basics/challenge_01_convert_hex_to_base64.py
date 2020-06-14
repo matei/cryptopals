@@ -6,10 +6,17 @@ from utils.print_utils import *
 class Challenge01:
 
     def __init__(self):
+        """
+        Init
+        """
         self.string = '49276d206b696c6c696e6720796f757220627261696e206c696b65206120706f69736f6e6f7573206d757368726f6f6d'
         self.output = 'SSdtIGtpbGxpbmcgeW91ciBicmFpbiBsaWtlIGEgcG9pc29ub3VzIG11c2hyb29t'
 
     def display(self):
+        """
+        Display challenge info
+        :return:
+        """
         print_line(f'{BOLD_START}Convert hex to base64{BOLD_END}', color=BLUE)
         print_line('The string:', color=BLUE)
         print_line(self.string, color=WHITE)
@@ -17,6 +24,10 @@ class Challenge01:
         print_line(self.output, color=WHITE)
 
     def run(self):
+        """
+        This is basic b64 encoding / decoding stuff...
+        :return:
+        """
         print_line('Running challenge #1', color=GREEN)
         result = base64.b64encode(binascii.unhexlify(self.string)).decode()
         print_line(f'Result is {result}')

@@ -5,9 +5,16 @@ from utils.print_utils import *
 class Challenge03:
 
     def __init__(self):
+        """
+        Init
+        """
         self.message = '1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736'
 
     def display(self):
+        """
+        Display challenge info
+        :return:
+        """
         print_line(f'{BOLD_START}Single-byte XOR cipher{BOLD_END}', color=BLUE)
         print_line('The hex encoded string: ', color=BLUE)
         print_line(self.message, color=WHITE)
@@ -17,4 +24,10 @@ class Challenge03:
                    'Evaluate each output and choose the one with the best score.', color=BLUE)
 
     def run(self):
+        """
+        This  does single-byte xor brute-force and looks at which is the result most resembling english
+        by comparing character frequency with known english most/least common character frequency
+        See find_english_message_by_single_byte_xor for details
+        :return:
+        """
         print_line(f'Challenge #3 flag is {find_english_message_by_single_byte_xor(self.message, treat_as_hex_string=True, return_detailed=False)}', color=GREEN)

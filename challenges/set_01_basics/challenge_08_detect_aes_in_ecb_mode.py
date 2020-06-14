@@ -7,11 +7,18 @@ from utils.print_utils import *
 class Challenge08:
 
     def __init__(self):
+        """
+        Init
+        """
         self.path = 'data/challenge08.txt'
         with(open(os.path.join(os.path.dirname(__file__), self.path), 'r')) as f:
             self.data = f.read()
 
     def display(self):
+        """
+        Display challenge info
+        :return:
+        """
         print_line(f'{BOLD_START}Detect AES in ECB mode{BOLD_END}', color=BLUE)
         print_line(f'In {self.path} are a bunch of hex-encoded ciphertexts. ', color=BLUE)
         print_line('One of them has been encrypted with ECB. ', color=BLUE)
@@ -20,6 +27,10 @@ class Challenge08:
                    'the same 16 byte plaintext block will always produce the same 16 byte ciphertext. ', color=BLUE)
 
     def run(self):
+        """
+        Search for repeating cipher-text blocks. If found it's a high chance it's ECB
+        :return:
+        """
         lines = self.data.split("\n")
         blocks = [binascii.unhexlify(l) for l in lines]
         result = []
