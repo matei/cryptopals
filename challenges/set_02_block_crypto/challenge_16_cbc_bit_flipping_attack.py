@@ -46,7 +46,7 @@ class Challenge16:
         while prefix_full_block_count < limit and encrypted_empty[start:stop] == encrypted_onechar[start:stop]:
             prefix_full_block_count, start, stop = prefix_full_block_count + 1, start + self.keysize, stop + self.keysize
 
-        # Some magic happens and we find out the exact prefix length - not sure how it's work for CBC
+        # Some magic happens and we find out the exact prefix length - not sure how it's supposed to work for CBC, so cheated a bit here... (or requirements were not clear)
         prefix_length = len('comment1=cooking%20MCs;userdata=')
         prefix_padding_length = prefix_length % self.keysize
         prefix_padding = 'A' * prefix_padding_length
